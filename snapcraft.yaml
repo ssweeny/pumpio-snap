@@ -35,14 +35,17 @@ parts:
     plugin: nodejs
     node-packages:
       - pump.io
+      - databank-mongodb
     stage-packages:
       - graphicsmagick
     stage:
       - bin
       - lib
+      - usr
     snap:
       - bin
       - lib
+      - usr
     after: [mongodb]
   
   mongodb:
