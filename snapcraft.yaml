@@ -1,0 +1,60 @@
+name: pumpio-ssweeny
+version: '1.0.0'
+summary: Social server with an ActivityStreams API 
+description: |
+  pump.io is a stream server that does most of what people really want from a
+  social network.
+
+grade: stable
+confinement: strict
+
+apps:
+  # pump.io server
+  pump:
+    daemon: simple
+    command: bin/pump -c $SNAP_DATA/pump.io.json
+    restart-condition: always
+    plugs: [network, network-bind]
+
+  pump-mongodb:
+    daemon: simple
+    command: env LC_ALL=C mongod --smallfiles --dbpath=$SNAP_COMMON
+    restart-condition: always
+    plugs: [network, network-bind]
+
+  # commandline tools
+  pump-register-app:
+    command: bin/pump-register-app
+  pump-register-user:
+    command: bin/pump-register-user
+  pump-authorize:
+    command: bin/pump-authorize
+
+parts:
+  pump:
+    plugin: nodejs
+    node-packages:
+      - pump.io
+    stage-packages:
+      - graphicsmagick
+    stage:
+      - bin
+      - lib
+    snap:
+      - bin
+      - lib
+    after: [mongodb]
+  
+  mongodb:
+    source: https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1604-3.2.7.tgz
+    plugin: dump
+    stage-packages:
+      - libssl1.0.0
+    stage:
+      - usr
+      - bin
+      - lib
+    snap:
+      - usr
+      - bin
+      - lib
