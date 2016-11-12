@@ -8,7 +8,7 @@ $ snapcraft
 
 To install:
 ```
-snap install pumpio_*_amd64.snap --dangrous
+snap install pumpio_*_amd64.snap --dangerous
 ```
 
 You can then access your pump.io instance at `http://localhost:31337`.
